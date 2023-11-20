@@ -1,6 +1,7 @@
 import 'package:bettingapp/dashboard.dart';
 import 'package:bettingapp/secondpage.dart';
 import 'package:bettingapp/player_selection_screen.dart'; // Import the necessary file
+import 'package:bettingapp/signin.dart';
 import 'package:flutter/material.dart';
 import 'package:video_player/video_player.dart';
 
@@ -17,7 +18,7 @@ class _bettingscreenState extends State<bettingscreen> {
   @override
   void initState() {
     super.initState();
-    _controller = VideoPlayerController.asset('assets/third.mp4')
+    _controller = VideoPlayerController.asset('assets/video.mp4')
       ..initialize().then((_) {
         _controller.play();
         _controller.setLooping(true);
@@ -51,7 +52,7 @@ class _bettingscreenState extends State<bettingscreen> {
                   onPressed: () {
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => SecondPage()),
+                      MaterialPageRoute(builder: (context) => SignInPage()),
                     );
                   },
                   child: Text('User'),
@@ -75,7 +76,7 @@ class _bettingscreenState extends State<bettingscreen> {
                           builder: (context) => PlayerSelectionScreen()),
                     ); // Add missing closing parenthesis here
                   },
-                  child: Text('Admin 2'),
+                  child: Text('Player Creation'),
                 ),
                 // Add more betting options as needed
               ],

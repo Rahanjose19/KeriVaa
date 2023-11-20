@@ -8,24 +8,12 @@ class PlayerSelectionScreen extends StatefulWidget {
 }
 
 class _PlayerSelectionScreenState extends State<PlayerSelectionScreen> {
-  List<Player> players = [
-    Player(name: 'Player 1', position: 'Forward'),
-    Player(name: 'Player 2', position: 'Midfielder'),
-    Player(name: 'Player 3', position: 'Defender'),
-    Player(name: 'Player 4', position: 'Goalkeeper'),
-  ];
+  List<Player> players = [];
 
   List<Player> selectedPlayers = [];
 
-  void _navigateToTeamCreation() {
-    Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (context) =>
-            TeamCreationScreen(selectedPlayers: selectedPlayers),
-      ),
-    );
-  }
+  TextEditingController playerNameController = TextEditingController();
+  TextEditingController positionController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -33,30 +21,86 @@ class _PlayerSelectionScreenState extends State<PlayerSelectionScreen> {
       appBar: AppBar(
         title: Text('Player Selection'),
       ),
-      body: ListView.builder(
-        itemCount: players.length,
-        itemBuilder: (context, index) {
-          return ListTile(
-            title: Text(players[index].name),
-            subtitle: Text(players[index].position),
-            trailing: IconButton(
-              icon: Icon(Icons.add),
-              onPressed: () {
-                setState(() {
-                  selectedPlayers.add(players[index]);
-                });
+      body: Column(
+        children: [
+          Expanded(
+            child: ListView.builder(
+              itemCount: players.length,
+              itemBuilder: (context, index) {
+                return ListTile(
+                  title: Text(players[index].name),
+                  subtitle: Text(players[index].position),
+                  trailing: IconButton(
+                    icon: Icon(Icons.add),
+                    onPressed: () {
+                      setState(() {
+                        players[index].isSelected = true;
+                        selectedPlayers.add(players[index]);
+                      });
+                    },
+                  ),
+                );
               },
             ),
-          );
-        },
+          ),
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Column(
+              children: [
+                TextField(
+                  controller: playerNameController,
+                  decoration: InputDecoration(
+                    labelText: 'Enter Player Name',
+                  ),
+                ),
+                TextField(
+                  controller: positionController,
+                  decoration: InputDecoration(
+                    labelText: 'Enter Custom Position',
+                  ),
+                ),
+              ],
+            ),
+          ),
+          ElevatedButton(
+            onPressed: () {
+              _addPlayer();
+            },
+            child: Text('Add Player'),
+          ),
+        ],
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          TeamCreationScreen(
-            selectedPlayers: [],
-          );
+          _navigateToTeamCreation();
         },
         child: Icon(Icons.arrow_forward),
+      ),
+    );
+  }
+
+  void _addPlayer() {
+    String playerName = playerNameController.text;
+    String position = positionController.text;
+
+    if (playerName.isNotEmpty) {
+      setState(() {
+        players.add(Player(
+          name: playerName,
+          position: position.isNotEmpty ? position : 'Custom Position',
+        ));
+        playerNameController.clear();
+        positionController.clear();
+      });
+    }
+  }
+
+  void _navigateToTeamCreation() {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) =>
+            TeamCreationScreen(selectedPlayers: selectedPlayers),
       ),
     );
   }

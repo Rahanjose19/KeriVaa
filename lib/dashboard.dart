@@ -1,8 +1,6 @@
+import 'package:bettingapp/eventHub.dart';
 import 'package:flutter/material.dart';
-
-void main() {
-  runApp(MyApp());
-}
+import 'package:bettingapp/pollpage.dart';
 
 class MyApp extends StatelessWidget {
   @override
@@ -34,10 +32,13 @@ class DashboardScreen extends StatelessWidget {
             },
           ),
           DashboardItem(
-            title: 'Leaderboard',
+            title: 'Event Hub',
             icon: Icons.leaderboard,
             onTap: () {
-              // Handle leaderboard item tap
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => EventHub()),
+              );
             },
           ),
           DashboardItem(
@@ -52,6 +53,17 @@ class DashboardScreen extends StatelessWidget {
             icon: Icons.settings,
             onTap: () {
               // Handle settings item tap
+            },
+          ),
+          DashboardItem(
+            title: 'Poll',
+            icon: Icons.poll,
+            onTap: () {
+              // Handle poll item tap
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => PollPage()),
+              );
             },
           ),
         ],

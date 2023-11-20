@@ -17,7 +17,7 @@ class _SecondPageState extends State<SecondPage> {
     super.initState();
 
     // Replace 'assets/your_video.mp4' with the actual path to your video
-    _videoController = VideoPlayerController.asset('assets/yee.mp4');
+    _videoController = VideoPlayerController.asset('assets/video.mp4');
     _initializeVideoPlayerFuture = _videoController.initialize();
     _videoController
         .setLooping(true); // Set to true if you want the video to loop

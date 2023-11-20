@@ -1,6 +1,7 @@
 class Player {
-  final String name;
-  final String position;
+  String name;
+  String position;
+  bool isSelected;
 
-  Player({required this.name, required this.position});
+  Player({required this.name, required this.position, this.isSelected = false});
 }
