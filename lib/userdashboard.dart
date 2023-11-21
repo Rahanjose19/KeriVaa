@@ -37,7 +37,7 @@ class UserDashboardScreen extends StatelessWidget {
             onTap: () {
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => EventHub()),
+                MaterialPageRoute(builder: (context) => EventHubPage()),
               );
             },
           ),

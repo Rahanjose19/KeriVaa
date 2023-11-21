@@ -4,8 +4,8 @@ import 'package:bettingapp/eventDetailsPage.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
-class EventHub extends StatefulWidget {
-  const EventHub({Key? key}) : super(key: key);
+class EventHubPage extends StatefulWidget {
+  const EventHubPage({Key? key}) : super(key: key);
 
   @override
   _EventHubState createState() => _EventHubState();
@@ -65,7 +65,7 @@ class Album {
   }
 }
 
-class _EventHubState extends State<EventHub> {
+class _EventHubState extends State<EventHubPage> {
   TextEditingController _textFieldController1 = TextEditingController();
   TextEditingController _textFieldController2 = TextEditingController();
   TextEditingController _textFieldController3 = TextEditingController();
@@ -126,6 +126,6 @@ class _EventHubState extends State<EventHub> {
 
 void main() {
   runApp(MaterialApp(
-    home: EventHub(),
+    home: EventHubPage(),
   ));
 }

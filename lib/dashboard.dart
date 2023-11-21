@@ -1,4 +1,5 @@
 import 'package:bettingapp/eventHub.dart';
+import 'package:bettingapp/eventHubList.dart';
 import 'package:flutter/material.dart';
 import 'package:bettingapp/pollpage.dart';
 
@@ -37,7 +38,7 @@ class DashboardScreen extends StatelessWidget {
             onTap: () {
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => EventHub()),
+                MaterialPageRoute(builder: (context) => EventHubPage()),
               );
             },
           ),
@@ -66,6 +67,15 @@ class DashboardScreen extends StatelessWidget {
               );
             },
           ),
+          DashboardItem(
+              title: 'EventHubList',
+              icon: Icons.panorama_rounded,
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => EventListPage()),
+                );
+              }),
         ],
       ),
     );
