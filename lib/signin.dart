@@ -1,4 +1,7 @@
+import 'package:bettingapp/userdashboard.dart';
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';  
 
 void main() {
   runApp(MyApp());
@@ -19,18 +22,35 @@ class SignInPage extends StatefulWidget {
 }
 
 class _SignInPageState extends State<SignInPage> {
-  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _usernameController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
 
-  void _signIn() {
-    // Implement your sign-in logic here
-    String email = _emailController.text;
-    String password = _passwordController.text;
+ Future<void> _signIn() async {
+  
+  //paste signin apiurl here
 
-    // Add your authentication logic here (e.g., check against a database)
-    print('Signing in with email: $email, password: $password');
+    final String apiUrl = 'http://your-node-backend-url/signin';
 
-    // Navigate to the next screen or perform additional actions as needed
+    final response = await http.post(
+      Uri.parse(apiUrl),
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+      body: jsonEncode(<String, String>{
+        'username': _usernameController.text,
+        'password': _passwordController.text,
+      }),
+    );
+
+    if (response.statusCode == 200) {
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => UserDashboardScreen()),
+      );
+    } else {
+      // Handle error
+      print('Failed to sign in. Status code: ${response.statusCode}');
+    }
   }
 
   @override
@@ -45,8 +65,8 @@ class _SignInPageState extends State<SignInPage> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             TextField(
-              controller: _emailController,
-              decoration: InputDecoration(labelText: 'Email'),
+              controller: _usernameController,
+              decoration: InputDecoration(labelText: 'Username'),
               keyboardType: TextInputType.emailAddress,
             ),
             SizedBox(height: 16.0),
