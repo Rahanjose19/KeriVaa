@@ -1,3 +1,4 @@
+import 'package:bettingapp/userdashboard.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';  
@@ -42,8 +43,10 @@ class _SignInPageState extends State<SignInPage> {
     );
 
     if (response.statusCode == 200) {
-      // Successfully signed in with Node.js backend
-      // Now, implement the logic to sign in through Supabase
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => UserDashboardScreen()),
+      );
     } else {
       // Handle error
       print('Failed to sign in. Status code: ${response.statusCode}');
