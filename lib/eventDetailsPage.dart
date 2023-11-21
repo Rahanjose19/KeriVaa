@@ -1,14 +1,13 @@
+import 'package:bettingapp/event.dart';
 import 'package:flutter/material.dart';
 
 class EventDetailsPage extends StatelessWidget {
   final String name;
   final String id;
-  final String hubId;
 
   const EventDetailsPage({
     required this.name,
     required this.id,
-    required this.hubId,
   });
 
   @override
@@ -24,9 +23,20 @@ class EventDetailsPage extends StatelessWidget {
           children: [
             Text('Event Name: ${name}'),
             SizedBox(height: 16.0),
-            Text('Hub ID: ${hubId}'),
-            SizedBox(height: 16.0),
             Text('Event ID: ${id}'),
+            ElevatedButton(
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => AddEventPage(
+                      eventHubId: id,
+                    ),
+                  ),
+                );
+              },
+              child: Text('Go to Event Page'),
+            )
           ],
         ),
       ),

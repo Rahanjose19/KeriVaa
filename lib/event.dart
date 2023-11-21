@@ -3,6 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
 class AddEventPage extends StatefulWidget {
+  final String eventHubId; // New parameter
+
+  AddEventPage({required this.eventHubId}); // Constructor
+
   @override
   _AddEventPageState createState() => _AddEventPageState();
 }
@@ -10,10 +14,9 @@ class AddEventPage extends StatefulWidget {
 class _AddEventPageState extends State<AddEventPage> {
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _dateController = TextEditingController();
-  final TextEditingController _hubIdController = TextEditingController();
   Future<void> _addEvent() async {
-    const String apiUrl =
-        'https://4f22-103-163-113-106.ngrok-free.app/event/add';
+    final String apiUrl =
+        'https://4f3f-111-92-126-211.ngrok-free.app/event/addToHub/${widget.eventHubId}';
 // Replace with your actual API endpoint
 
     final response = await http.post(
@@ -21,7 +24,6 @@ class _AddEventPageState extends State<AddEventPage> {
       body: jsonEncode({
         'name': _nameController.text,
         'date': _dateController.text,
-        'hub_id': _hubIdController.text,
       }),
       headers: {
         'Content-Type': 'application/json',
@@ -58,10 +60,7 @@ class _AddEventPageState extends State<AddEventPage> {
               decoration: InputDecoration(labelText: 'Event Date'),
             ),
             SizedBox(height: 16.0),
-            TextField(
-              controller: _hubIdController,
-              decoration: InputDecoration(labelText: 'Hub ID'),
-            ),
+            Text('Event Hub ID: ${widget.eventHubId}'),
             SizedBox(height: 32.0),
             ElevatedButton(
               onPressed: _addEvent,
@@ -72,10 +71,4 @@ class _AddEventPageState extends State<AddEventPage> {
       ),
     );
   }
-}
-
-void main() {
-  runApp(MaterialApp(
-    home: AddEventPage(),
-  ));
 }
