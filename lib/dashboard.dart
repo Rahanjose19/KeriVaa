@@ -56,7 +56,18 @@ class DashboardScreen extends StatelessWidget {
               // Handle settings item tap
             },
           ),
-         DashboardItem(
+          DashboardItem(
+            title: 'Poll',
+            icon: Icons.poll,
+            onTap: () {
+              // Handle poll item tap
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => PollPage()),
+              );
+            },
+          ),
+          DashboardItem(
               title: 'EventHubList',
               icon: Icons.panorama_rounded,
               onTap: () {

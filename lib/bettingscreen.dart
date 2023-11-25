@@ -45,11 +45,7 @@ class _bettingscreenState extends State<bettingscreen> {
               children: [
                 Text(
                   'Place Your Bets!',
-                  style: TextStyle(
-                    fontSize: 24,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.white, // Set the color to white
-                  ),
+                  style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
                 ),
                 SizedBox(height: 20),
                 ElevatedButton(
