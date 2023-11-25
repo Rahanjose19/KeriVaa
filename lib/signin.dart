@@ -1,4 +1,5 @@
 import 'package:bettingapp/userdashboard.dart';
+import 'package:bettingapp/signup.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
@@ -28,7 +29,7 @@ class _SignInPageState extends State<SignInPage> {
   Future<void> _signIn() async {
     //paste signin apiurl here
 
-    print(_usernameController.text  + _passwordController.text);
+    print(_usernameController.text + _passwordController.text);
     final String apiUrl =
         'https://4f3f-111-92-126-211.ngrok-free.app/user/signup';
 
@@ -80,6 +81,23 @@ class _SignInPageState extends State<SignInPage> {
             ElevatedButton(
               onPressed: _signIn,
               child: Text('Sign In'),
+            ),
+            SizedBox(height: 32.0),
+            InkWell(
+              onTap: () {
+                // Navigate to the signup page when the link is pressed
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => SignUpPage()),
+                );
+              },
+              child: Text(
+                'Don\'t have an account? Sign up here!',
+                style: TextStyle(
+                  color: Colors.blue,
+                  decoration: TextDecoration.underline,
+                ),
+              ),
             ),
           ],
         ),
