@@ -3,6 +3,61 @@ import 'package:bettingapp/signup.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
+import 'package:shared_preferences/shared_preferences.dart';
+
+
+//user object
+
+class User {
+  final int id;
+  final String name;
+
+  User({required this.id, required this.name});
+
+  factory User.fromJson(Map<String, dynamic> json) {
+    return User(id: json['id'], name: json['name']);
+  }
+}
+
+
+//save user info
+
+class UserInfoStorage {
+  static const String keyUsername = 'username';
+  static const String keyUserId = 'userId';
+
+  Future<void> saveUserInfo(String username, int userId) async {
+    final prefs = await SharedPreferences.getInstance();
+    prefs.setString(keyUsername, username);
+    prefs.setInt(keyUserId, userId);
+  }
+
+  Future<Map<String, dynamic>> getUserInfo() async {
+    final prefs = await SharedPreferences.getInstance();
+    final String? username = prefs.getString(keyUsername);
+    final int? userId = prefs.getInt(keyUserId);
+
+    return {'username': username, 'userId': userId};
+  }
+}
+
+class UserRepository {
+  Future<User> authenticate(String username, String password) async {
+    // Replace the URL with your actual authentication endpoint
+    final response = await http.post(
+      Uri.parse('https://example.com/api/authenticate'),
+      body: {'username': username, 'password': password},
+    );
+
+    if (response.statusCode == 200) {
+      final Map<String, dynamic> data = jsonDecode(response.body);
+      return User.fromJson(data);
+    } else {
+      throw Exception('Failed to authenticate user');
+    }
+  }
+}
+
 
 void main() {
   runApp(MyApp());
@@ -25,34 +80,34 @@ class SignInPage extends StatefulWidget {
 class _SignInPageState extends State<SignInPage> {
   final TextEditingController _usernameController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
+  final UserInfoStorage _userInfoStorage = UserInfoStorage();
+  final UserRepository _userRepository = UserRepository();
 
-  Future<void> _signIn() async {
-    //paste signin apiurl here
+  void _signIn() async {
 
-    print(_usernameController.text + _passwordController.text);
-    final String apiUrl =
-        'https://4f3f-111-92-126-211.ngrok-free.app/user/signup';
+    final String username = _usernameController.text;
+    final String password = _passwordController.text;
 
-    final response = await http.post(
-      Uri.parse(apiUrl),
-      headers: <String, String>{
-        'Content-Type': 'application/json; charset=UTF-8',
-      },
-      body: jsonEncode(<String, String>{
-        'username': _usernameController.text,
-        'password': _passwordController.text,
-      }),
-    );
+    try {
+      final User user = await _userRepository.authenticate(username, password);
 
-    if (response.statusCode == 200) {
-      Navigator.push(
-        context,
-        MaterialPageRoute(builder: (context) => UserDashboardScreen()),
-      );
-    } else {
-      // Handle error
-      print('Failed to sign in. Status code: ${response.statusCode}');
+      // Save user information to SharedPreferences
+      await _userInfoStorage.saveUserInfo( user.name,user.id);
+      print('User information saved.');
+
+      // For now, just print the user information
+      //final storedUser = await _userInfoStorage.getUserInfo();
+      // if (storedUser != null) {
+      //   print('Stored User ID: ${storedUser.userId}');
+      //   print('Stored User Name: ${storedUser.username}');
+      // }
+
+    // Navigate to the next screen or perform other actions as needed
+
+    } catch (e) {
+      print('Error: $e');
     }
+
   }
 
   @override
@@ -69,7 +124,6 @@ class _SignInPageState extends State<SignInPage> {
             TextField(
               controller: _usernameController,
               decoration: InputDecoration(labelText: 'Username'),
-              keyboardType: TextInputType.emailAddress,
             ),
             SizedBox(height: 16.0),
             TextField(
