@@ -58,11 +58,12 @@ class _EventDetailsPageState extends State<EventDetailsPage> {
 
   Future<void> fetchData() async {
     final response = await http.get(Uri.parse(
-        'https://ef86-2406-8800-9014-5b64-f56d-8079-b4ee-9ccc.ngrok-free.app/event/${widget.eventId}'));
+        'https://d86f-2409-40f3-109f-d64f-68f6-4a8a-4302-3cdb.ngrok-free.app/event/${widget.eventId}'));
 
     if (response.statusCode == 200) {
       final Map<String, dynamic> data = json.decode(response.body);
-      print("\n\n${data} herererereeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee\n\n\n\n\n\n");
+      print(
+          "\n\n${data} herererereeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee\n\n\n\n\n\n");
       setState(() {
         _event = Event.fromJson(data);
       });

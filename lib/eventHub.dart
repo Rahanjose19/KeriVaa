@@ -17,7 +17,7 @@ Future<Album> createAlbum(String text1, String text2, String text3) async {
 
   final result = await http.post(
     Uri.parse(
-        'https://ef86-2406-8800-9014-5b64-f56d-8079-b4ee-9ccc.ngrok-free.app/eventHub/add'),
+        'https://d86f-2409-40f3-109f-d64f-68f6-4a8a-4302-3cdb.ngrok-free.app/eventHub/add'),
     headers: <String, String>{
       'Content-Type': 'application/json; charset=UTF-8',
     },

@@ -31,7 +31,7 @@ class _SignUpFormState extends State<SignUpForm> {
 
     print(_usernameController.text + _passwordController.text);
     final String apiUrl =
-        'https://ef86-2406-8800-9014-5b64-f56d-8079-b4ee-9ccc.ngrok-free.app/user/signup';
+        'https://d86f-2409-40f3-109f-d64f-68f6-4a8a-4302-3cdb.ngrok-free.app/user/signup';
 
     final response = await http.post(
       Uri.parse(apiUrl),

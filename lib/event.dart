@@ -17,7 +17,7 @@ class _AddEventPageState extends State<AddEventPage> {
   final TextEditingController _dateController = TextEditingController();
   Future<void> _addEvent() async {
     final String apiUrl =
-        'https://ef86-2406-8800-9014-5b64-f56d-8079-b4ee-9ccc.ngrok-free.app/event/addToHub/${widget.eventHubId}';
+        'https://d86f-2409-40f3-109f-d64f-68f6-4a8a-4302-3cdb.ngrok-free.app/event/addToHub/${widget.eventHubId}';
 // Replace with your actual API endpoint
 
     final response = await http.post(
