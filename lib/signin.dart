@@ -5,7 +5,6 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:shared_preferences/shared_preferences.dart';
 
-
 //user object
 
 class User {
@@ -18,7 +17,6 @@ class User {
     return User(id: json['id'], name: json['name']);
   }
 }
-
 
 //save user info
 
@@ -45,7 +43,7 @@ class UserRepository {
   Future<User> authenticate(String username, String password) async {
     // Replace the URL with your actual authentication endpoint
     final response = await http.post(
-      Uri.parse('https://example.com/api/authenticate'),
+      Uri.parse('https://4f3f-111-92-126-211.ngrok-free.app/authenticate'),
       body: {'username': username, 'password': password},
     );
 
@@ -57,7 +55,6 @@ class UserRepository {
     }
   }
 }
-
 
 void main() {
   runApp(MyApp());
@@ -84,7 +81,6 @@ class _SignInPageState extends State<SignInPage> {
   final UserRepository _userRepository = UserRepository();
 
   void _signIn() async {
-
     final String username = _usernameController.text;
     final String password = _passwordController.text;
 
@@ -92,7 +88,7 @@ class _SignInPageState extends State<SignInPage> {
       final User user = await _userRepository.authenticate(username, password);
 
       // Save user information to SharedPreferences
-      await _userInfoStorage.saveUserInfo( user.name,user.id);
+      await _userInfoStorage.saveUserInfo(user.name, user.id);
       print('User information saved.');
 
       // For now, just print the user information
@@ -102,12 +98,11 @@ class _SignInPageState extends State<SignInPage> {
       //   print('Stored User Name: ${storedUser.username}');
       // }
 
-    // Navigate to the next screen or perform other actions as needed
-
+      Navigator.push(context,
+          MaterialPageRoute(builder: (context) => UserDashboardPage()));
     } catch (e) {
       print('Error: $e');
     }
-
   }
 
   @override

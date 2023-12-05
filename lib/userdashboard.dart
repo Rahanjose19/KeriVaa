@@ -1,90 +1,73 @@
-import 'package:bettingapp/eventHub.dart';
 import 'package:flutter/material.dart';
-import 'package:bettingapp/pollpage.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
+import 'userEventList.dart';
 
-class MyApp extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter Dashboard',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
-      home: UserDashboardScreen(),
-    );
+class User {
+  final int id;
+  final String name;
+
+  User({required this.id, required this.name});
+
+  factory User.fromJson(Map<String, dynamic> json) {
+    return User(id: json['id'], name: json['name']);
   }
 }
 
-class UserDashboardScreen extends StatelessWidget {
+class UserDashboardPage extends StatefulWidget {
+  @override
+  _UserDashboardPageState createState() => _UserDashboardPageState();
+}
+
+class _UserDashboardPageState extends State<UserDashboardPage> {
+  final List<String> _userEvents = []; // Placeholder for user-specific events
+
+  Future<void> _fetchUserEvents() async {
+    // Replace the URL with your actual API endpoint to fetch user events
+    final response = await http.get(
+      Uri.parse('https://4f3f-111-92-126-211.ngrok-free.app/user/events'),
+    );
+
+    if (response.statusCode == 200) {
+      final List<dynamic> data = jsonDecode(response.body);
+      final List<String> userEvents = data.cast<String>().toList();
+
+      setState(() {
+        _userEvents.clear();
+        _userEvents.addAll(userEvents);
+      });
+    } else {
+      throw Exception('Failed to fetch user events');
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Dashboard'),
+        title: Text('User Dashboard'),
       ),
-      body: ListView(
-        children: [
-          DashboardItem(
-            title: 'Profile',
-            icon: Icons.person,
-            onTap: () {
-              // Handle profile item tap
-            },
-          ),
-          DashboardItem(
-            title: 'Event Hub',
-            icon: Icons.leaderboard,
-            onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => EventHubPage()),
-              );
-            },
-          ),
-          DashboardItem(
-            title: 'Rewards',
-            icon: Icons.card_giftcard,
-            onTap: () {
-              // Handle rewards item tap
-            },
-          ),
-          DashboardItem(
-            title: 'Settings',
-            icon: Icons.settings,
-            onTap: () {
-              // Handle settings item tap
-            },
-          ),
-          DashboardItem(
-            title: 'Poll',
-            icon: Icons.poll,
-            onTap: () {
-              // Handle poll item tap
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => PollPage()),
-              );
-            },
-          ),
-        ],
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text('Welcome to the User Dashboard!'),
+            SizedBox(height: 16),
+            ElevatedButton(
+              onPressed: () async {
+                await _fetchUserEvents();
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => UserEventListPage(_userEvents),
+                  ),
+                );
+              },
+              child: Text('View User Events'),
+            ),
+          ],
+        ),
       ),
-    );
-  }
-}
-
-class DashboardItem extends StatelessWidget {
-  final String title;
-  final IconData icon;
-  final VoidCallback onTap;
-
-  DashboardItem({required this.title, required this.icon, required this.onTap});
-
-  @override
-  Widget build(BuildContext context) {
-    return ListTile(
-      title: Text(title),
-      leading: Icon(icon),
-      onTap: onTap,
     );
   }
 }
