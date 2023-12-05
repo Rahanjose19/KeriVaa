@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
@@ -30,7 +31,7 @@ class _SignUpFormState extends State<SignUpForm> {
 
     print(_usernameController.text + _passwordController.text);
     final String apiUrl =
-        'https://4f3f-111-92-126-211.ngrok-free.app/user/signup';
+        'https://ef86-2406-8800-9014-5b64-f56d-8079-b4ee-9ccc.ngrok-free.app/user/signup';
 
     final response = await http.post(
       Uri.parse(apiUrl),
