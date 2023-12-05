@@ -1,11 +1,11 @@
 import 'package:bettingapp/event.dart';
 import 'package:flutter/material.dart';
 
-class EventDetailsPage extends StatelessWidget {
+class EventAddPage extends StatelessWidget {
   final String name;
   final String id;
 
-  const EventDetailsPage({
+  const EventAddPage({
     required this.name,
     required this.id,
   });

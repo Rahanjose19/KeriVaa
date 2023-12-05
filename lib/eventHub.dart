@@ -1,7 +1,7 @@
 import 'dart:convert';
-
-import 'package:bettingapp/eventDetailsPage.dart';
+import 'package:bettingapp/EventAddPage.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:http/http.dart' as http;
 
 class EventHubPage extends StatefulWidget {
@@ -16,7 +16,8 @@ Future<Album> createAlbum(String text1, String text2, String text3) async {
   print(text1 + text2 + text3);
 
   final result = await http.post(
-    Uri.parse('https://4f3f-111-92-126-211.ngrok-free.app/eventHub/add'),
+    Uri.parse(
+        'https://ef86-2406-8800-9014-5b64-f56d-8079-b4ee-9ccc.ngrok-free.app/eventHub/add'),
     headers: <String, String>{
       'Content-Type': 'application/json; charset=UTF-8',
     },
@@ -110,7 +111,7 @@ class _EventHubState extends State<EventHubPage> {
                   context,
                   MaterialPageRoute(
                     builder: (context) =>
-                        EventDetailsPage(name: result.name, id: result.id),
+                        EventAddPage(name: result.name, id: result.id),
                   ),
                 );
 // Do something with the text (e.g., print it)

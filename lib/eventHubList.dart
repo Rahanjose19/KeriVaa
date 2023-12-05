@@ -1,6 +1,8 @@
 import 'dart:convert';
 import 'package:bettingapp/event.dart';
+import 'package:bettingapp/eventlist.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:http/http.dart' as http;
 
 class EventListPage extends StatefulWidget {
@@ -20,8 +22,8 @@ class _EventListPageState extends State<EventListPage> {
   }
 
   Future<void> fetchData() async {
-    final response = await http
-        .get(Uri.parse('https://4f3f-111-92-126-211.ngrok-free.app/eventhub'));
+    final response = await http.get(Uri.parse(
+        'https://ef86-2406-8800-9014-5b64-f56d-8079-b4ee-9ccc.ngrok-free.app/eventhub'));
 
     if (response.statusCode == 200) {
       print(response.body);
@@ -49,22 +51,37 @@ class _EventListPageState extends State<EventListPage> {
         itemCount: eventHubs.length,
         itemBuilder: (context, index) {
           return ListTile(
-            title: Text(eventHubs[index].name ?? ''),
-            subtitle: Text('Start Date: ${eventHubs[index].startDate}'),
-            trailing: ElevatedButton(
-              onPressed: () {
-                // Navigate to the AddEventPage with the corresponding eventHubId
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) =>
-                        AddEventPage(eventHubId: eventHubs[index].id ?? ''),
-                  ),
-                );
-              },
-              child: Text('Add Event'),
-            ),
-          );
+              title: Text(eventHubs[index].name ?? ''),
+              subtitle: Text('Start Date: ${eventHubs[index].startDate}'),
+              trailing: Row(mainAxisSize: MainAxisSize.min, children: [
+                ElevatedButton(
+                  onPressed: () {
+                    // Redirect to the AddEventPage with the corresponding eventHubId
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) =>
+                            AddEventPage(eventHubId: eventHubs[index].id ?? ''),
+                      ),
+                    );
+                  },
+                  child: Text('Add Event'),
+                ),
+                SizedBox(width: 8), // Add some space between buttons
+                ElevatedButton(
+                  onPressed: () {
+                    // Redirect to the EventListPage passing the hub_id
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) =>
+                            ListEventsPage(hubId: eventHubs[index].id ?? ''),
+                      ),
+                    );
+                  },
+                  child: Text('View Events'),
+                ),
+              ]));
         },
       ),
     );
