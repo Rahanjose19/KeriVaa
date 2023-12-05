@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:http/http.dart' as http;
 
 class AddEventPage extends StatefulWidget {
@@ -16,7 +17,7 @@ class _AddEventPageState extends State<AddEventPage> {
   final TextEditingController _dateController = TextEditingController();
   Future<void> _addEvent() async {
     final String apiUrl =
-        'https://4f3f-111-92-126-211.ngrok-free.app/event/addToHub/${widget.eventHubId}';
+        'https://ef86-2406-8800-9014-5b64-f56d-8079-b4ee-9ccc.ngrok-free.app/event/addToHub/${widget.eventHubId}';
 // Replace with your actual API endpoint
 
     final response = await http.post(
