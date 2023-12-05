@@ -42,3 +42,11 @@ class _EnterEventCodePageState extends State<EnterEventCodePage> {
     );
   }
 }
+
+void main() {
+  runApp(
+    MaterialApp(
+      home: EnterEventCodePage(),
+    ),
+  );
+}

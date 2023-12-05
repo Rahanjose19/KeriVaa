@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'userEventList.dart';
-import 'enterWidget.dart';
+import 'enterEventPage.dart';
 
 class User {
   final int id;
