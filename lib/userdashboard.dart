@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'userEventList.dart';
+import 'enterEventPage.dart';
 
 class User {
   final int id;
@@ -53,27 +54,58 @@ class _UserDashboardPageState extends State<UserDashboardPage> {
       appBar: AppBar(
         title: Text('User Dashboard'),
       ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Text('Welcome to the User Dashboard!'),
-            SizedBox(height: 16),
-            ElevatedButton(
-              onPressed: () async {
-                // await _fetchUserEvents();
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => UserEventListPage(_userEvents),
-                  ),
-                );
-              },
-              child: Text('View User Events'),
-            ),
-          ],
-        ),
+      body: ListView(
+        children: [ 
+          DashboardItem(
+            title: 'Event Hub',
+            icon: Icons.leaderboard,
+            onTap: ()  async {
+              await _fetchUserEvents();
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => UserEventListPage(_userEvents),
+                ),
+              );
+            },
+          ),
+          DashboardItem(
+            title: 'Rewards',
+            icon: Icons.card_giftcard,
+            onTap: () {
+              // Handle rewards item tap
+            },
+          ),
+          DashboardItem(
+            title: 'Enter event ',
+            icon: Icons.poll,
+            onTap: () {
+               Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => EnterEventCodePage()),
+              );
+            },
+          ),
+        ],
       ),
+    );
+  }
+}
+
+
+class DashboardItem extends StatelessWidget {
+  final String title;
+  final IconData icon;
+  final VoidCallback onTap;
+
+  DashboardItem({required this.title, required this.icon, required this.onTap});
+
+  @override
+  Widget build(BuildContext context) {
+    return ListTile(
+      title: Text(title),
+      leading: Icon(icon),
+      onTap: onTap,
     );
   }
 }

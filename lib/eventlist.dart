@@ -153,3 +153,4 @@ class _EventPageState extends State<ListEventsPage> {
     );
   }
 }
+
