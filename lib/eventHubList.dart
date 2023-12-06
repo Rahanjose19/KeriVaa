@@ -23,7 +23,7 @@ class _EventListPageState extends State<EventListPage> {
 
   Future<void> fetchData() async {
     final response = await http.get(Uri.parse(
-        'https://d86f-2409-40f3-109f-d64f-68f6-4a8a-4302-3cdb.ngrok-free.app/eventhub'));
+        'https://382e-2409-4073-2e9a-c499-5c74-813-7dba-3f1a.ngrok-free.app/eventhub'));
 
     if (response.statusCode == 200) {
       print(response.body);
@@ -41,6 +41,22 @@ class _EventListPageState extends State<EventListPage> {
     }
   }
 
+  Future<void> deleteEventHub(String eventHubId) async {
+    final response = await http.delete(
+      Uri.parse(
+          'https://382e-2409-4073-2e9a-c499-5c74-813-7dba-3f1a.ngrok-free.app/eventhub/$eventHubId'),
+    );
+
+    if (response.statusCode == 200) {
+      // EventHub deleted successfully, refresh the list
+      fetchData();
+    } else {
+      // Handle error cases
+      print('Error deleting EventHub: ${response.statusCode}');
+      print('Response body: ${response.body}');
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -51,7 +67,12 @@ class _EventListPageState extends State<EventListPage> {
         itemCount: eventHubs.length,
         itemBuilder: (context, index) {
           return ListTile(
-              title: Text(eventHubs[index].name ?? ''),
+              title: Text(
+                eventHubs[index].name ?? '',
+                style: TextStyle(
+                  fontSize: 20, // Adjust the font size as needed
+                ),
+              ),
               subtitle: Text('Start Date: ${eventHubs[index].startDate}'),
               trailing: Row(mainAxisSize: MainAxisSize.min, children: [
                 ElevatedButton(
@@ -60,13 +81,15 @@ class _EventListPageState extends State<EventListPage> {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) =>
-                            AddEventPage(eventHubId: eventHubs[index].id ?? ''),
+                        builder: (context) => AddEventPage(
+                          eventHubId: eventHubs[index].id ?? '',
+                        ),
                       ),
                     );
                   },
-                  child: Text('Add Event'),
+                  child: Icon(Icons.add),
                 ),
+
                 SizedBox(width: 8), // Add some space between buttons
                 ElevatedButton(
                   onPressed: () {
@@ -74,12 +97,22 @@ class _EventListPageState extends State<EventListPage> {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) =>
-                            ListEventsPage(hubId: eventHubs[index].id ?? ''),
+                        builder: (context) => ListEventsPage(
+                          hubId: eventHubs[index].id ?? '',
+                        ),
                       ),
                     );
                   },
-                  child: Text('View Events'),
+                  child: Icon(Icons.remove_red_eye),
+                ),
+                SizedBox(width: 8), // Add some space between buttons
+                ElevatedButton(
+                  onPressed: () {
+                    // Delete the EventHub
+                    deleteEventHub(eventHubs[index].id ?? '');
+                  },
+                  style: ElevatedButton.styleFrom(primary: Colors.red),
+                  child: Icon(Icons.close, color: Colors.white),
                 ),
               ]));
         },

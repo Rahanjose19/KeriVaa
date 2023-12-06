@@ -76,6 +76,7 @@ class DashboardScreen extends StatelessWidget {
                   MaterialPageRoute(builder: (context) => EventListPage()),
                 );
               }),
+
         ],
       ),
     );

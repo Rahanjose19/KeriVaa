@@ -1,8 +1,8 @@
-import 'package:bettingapp/eventPage.dart';
+import 'package:bettingapp/adminpollpage.dart';
+import 'package:bettingapp/createpoll.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_dotenv/flutter_dotenv.dart';
-import 'dart:convert';
 import 'package:http/http.dart' as http;
+import 'dart:convert';
 
 class Event {
   final String id;
@@ -33,7 +33,7 @@ class _EventPageState extends State<ListEventsPage> {
 
   Future<void> fetchData() async {
     final response = await http.get(Uri.parse(
-        'https://d86f-2409-40f3-109f-d64f-68f6-4a8a-4302-3cdb.ngrok-free.app/eventHub/${widget.hubId}/events'));
+        'https://382e-2409-4073-2e9a-c499-5c74-813-7dba-3f1a.ngrok-free.app/eventHub/${widget.hubId}/events'));
 
     if (response.statusCode == 200) {
       // If server returns an OK response, parse the events
@@ -70,19 +70,50 @@ class _EventPageState extends State<ListEventsPage> {
                   title: Text(events[index].name),
                   subtitle: Text('Event ID: ${events[index].id}'),
                   // Add other widgets to display event details
-                  trailing: ElevatedButton(
-                    onPressed: () {
-                      // Handle button press for the specific event
-                      // You can navigate to another page or perform any other action
-                      // based on the selected event.
-                      // For example, you can show event details in a dialog.
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
+                  trailing: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      ElevatedButton(
+                        onPressed: () {
+                          // Handle button press for the specific event
+                          // You can navigate to another page or perform any other action
+                          // based on the selected event.
+                          // For example, you can show event details in a dialog.
+                          showEventDetails(events[index]);
+                        },
+                        child: Text('View'),
+                      ),
+                      SizedBox(width: 8),
+                      ElevatedButton(
+                        onPressed: () {
+                          // Navigate to the CreatePollPage when the button is pressed
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => CreatePollPage(
+                                  eventId: int.parse(events[index].id)),
+                            ),
+                          );
+                        },
+                        child: Text('Create Poll'),
+                      ),
+
+                      //elevated button for admin poll page
+                      SizedBox(width: 8),
+                      ElevatedButton(
+                        onPressed: () {
+                          // Navigate to the CreatePollPage when the button is pressed
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
                               builder: (context) =>
-                                  EventDetailsPage(eventId: events[index].id)));
-                    },
-                    child: Text('View'),
+                                  AdminPollPage(eventId: events[index].id),
+                            ),
+                          );
+                        },
+                        child: Text('Admin Poll'),
+                      ),
+                    ],
                   ),
                 );
               },
