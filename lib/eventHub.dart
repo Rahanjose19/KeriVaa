@@ -1,8 +1,7 @@
 import 'dart:convert';
-import 'package:bettingapp/EventAddPage.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:http/http.dart' as http;
+import 'package:bettingapp/EventAddPage.dart';
 
 class EventHubPage extends StatefulWidget {
   const EventHubPage({Key? key}) : super(key: key);
@@ -12,12 +11,10 @@ class EventHubPage extends StatefulWidget {
 }
 
 Future<Album> createAlbum(String text1, String text2, String text3) async {
-//print text1 text2 text3 in one line
   print(text1 + text2 + text3);
 
   final result = await http.post(
-    Uri.parse(
-        'https://382e-2409-4073-2e9a-c499-5c74-813-7dba-3f1a.ngrok-free.app/eventHub/add'),
+    Uri.parse('https://382e-2409-4073-2e9a-c499-5c74-813-7dba-3f1a.ngrok-free.app/eventHub/add'), // Add your API URL here
     headers: <String, String>{
       'Content-Type': 'application/json; charset=UTF-8',
     },
@@ -28,13 +25,11 @@ Future<Album> createAlbum(String text1, String text2, String text3) async {
     }),
   );
 
-  // Log the full response for analysis
   print('API Response Status Code: ${result.statusCode}');
   print('API Response Headers: ${result.headers}');
   print('API Response Body: ${result.body}');
 
   if (result.statusCode == 200) {
-    // Check if the response body is not empty
     if (result.body.isNotEmpty) {
       return Album.fromJson(jsonDecode(result.body));
     } else {
@@ -48,19 +43,16 @@ Future<Album> createAlbum(String text1, String text2, String text3) async {
 
 class Album {
   final String name;
-  // final String date;
   final String id;
 
   const Album({
     required this.name,
-    // required this.date,
     required this.id,
   });
 
   factory Album.fromJson(Map<String, dynamic> json) {
     return Album(
       name: json['name'],
-      // date: json['date'],
       id: json['id'],
     );
   }
@@ -77,48 +69,71 @@ class _EventHubState extends State<EventHubPage> {
       appBar: AppBar(
         title: Text('Event Hub Example'),
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          children: [
-            TextField(
-              controller: _textFieldController1,
-              decoration: InputDecoration(
-                labelText: 'Enter event hub name',
+      body: Container(
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+            colors: [Colors.blue, Colors.indigo],
+          ),
+        ),
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
+            children: [
+              TextField(
+                controller: _textFieldController1,
+                decoration: InputDecoration(
+                  labelText: 'Enter event hub name',
+                  filled: true,
+                  fillColor: Colors.white,
+                  border: OutlineInputBorder(),
+                ),
               ),
-            ),
-            SizedBox(height: 16.0),
-            TextField(
+              SizedBox(height: 16.0),
+              TextField(
                 controller: _textFieldController2,
-                decoration: InputDecoration(labelText: 'Enter start date')),
-            SizedBox(height: 16.0),
-            TextField(
+                decoration: InputDecoration(
+                  labelText: 'Enter start date',
+                  filled: true,
+                  fillColor: Colors.white,
+                  border: OutlineInputBorder(),
+                ),
+              ),
+              SizedBox(height: 16.0),
+              TextField(
                 controller: _textFieldController3,
-                decoration: InputDecoration(labelText: 'Enter end date')),
-            SizedBox(height: 16.0),
-            ElevatedButton(
-              onPressed: () async {
-                // Access the text from the controllers
-                String text1 = _textFieldController1.text;
-                String text2 = _textFieldController2.text;
-                String text3 = _textFieldController3.text;
-                print("-----------------------------------yeeee");
-                final result = await createAlbum(text1, text2, text3);
-                print('API Response: ${result.id}');
+                decoration: InputDecoration(
+                  labelText: 'Enter end date',
+                  filled: true,
+                  fillColor: Colors.white,
+                  border: OutlineInputBorder(),
+                ),
+              ),
+              SizedBox(height: 16.0),
+              ElevatedButton(
+                onPressed: () async {
+                  String text1 = _textFieldController1.text;
+                  String text2 = _textFieldController2.text;
+                  String text3 = _textFieldController3.text;
 
-                // ignore: use_build_context_synchronously
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) =>
-                        EventAddPage(name: result.name, id: result.id),
-                  ),
-                );
-// Do something with the text (e.g., print it)
-              },
-              child: Text('Submit'),
-            ),
-          ],
+                  final result = await createAlbum(text1, text2, text3);
+
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) =>
+                          EventAddPage(name: result.name, id: result.id),
+                    ),
+                  );
+                },
+                style: ElevatedButton.styleFrom(
+                  primary: Colors.green, // Set your desired primary color
+                ),
+                child: Text('Submit'),
+              ),
+            ],
+          ),
         ),
       ),
     );

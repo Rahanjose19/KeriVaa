@@ -23,51 +23,65 @@ class DashboardScreen extends StatelessWidget {
       appBar: AppBar(
         title: Text('Dashboard'),
       ),
-      body: ListView(
-        children: [
-          DashboardItem(
-            title: 'Profile',
-            icon: Icons.person,
-            onTap: () {
-              // Handle profile item tap
-            },
+      body: Container(
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+            colors: [Colors.blue, Colors.indigo],
           ),
-          DashboardItem(
-            title: 'Event Hub',
-            icon: Icons.leaderboard,
-            onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => EventHubPage()),
-              );
-            },
-          ),
-          DashboardItem(
-            title: 'Rewards',
-            icon: Icons.card_giftcard,
-            onTap: () {
-              // Handle rewards item tap
-            },
-          ),
-          DashboardItem(
-            title: 'Settings',
-            icon: Icons.settings,
-            onTap: () {
-              // Handle settings item tap
-            },
-          ),
-          DashboardItem(
-            title: 'Poll',
-            icon: Icons.poll,
-            onTap: () {
-              // Handle poll item tap
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => PollPage()),
-              );
-            },
-          ),
-          DashboardItem(
+        ),
+        child: ListView(
+          padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 24.0),
+          children: [
+            DashboardItem(
+              title: 'Profile',
+              icon: Icons.person,
+              onTap: () {
+                // Handle profile item tap
+              },
+            ),
+            SizedBox(height: 16.0),
+            DashboardItem(
+              title: 'Event Hub',
+              icon: Icons.leaderboard,
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => EventHubPage()),
+                );
+              },
+            ),
+            SizedBox(height: 16.0),
+            DashboardItem(
+              title: 'Rewards',
+              icon: Icons.card_giftcard,
+              onTap: () {
+                // Handle rewards item tap
+              },
+            ),
+            SizedBox(height: 16.0),
+            DashboardItem(
+              title: 'Settings',
+              icon: Icons.settings,
+              onTap: () {
+                // Handle settings item tap
+              },
+            ),
+            SizedBox(height: 16.0),
+            DashboardItem(
+              title: 'Poll',
+              icon: Icons.poll,
+              onTap: () {
+                // Handle poll item tap
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => PollPage()),
+                );
+              },
+            ),
+            SizedBox(height: 16.0),
+            DashboardItem(
               title: 'EventHubList',
               icon: Icons.panorama_rounded,
               onTap: () {
@@ -75,9 +89,10 @@ class DashboardScreen extends StatelessWidget {
                   context,
                   MaterialPageRoute(builder: (context) => EventListPage()),
                 );
-              }),
-
-        ],
+              },
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -92,10 +107,23 @@ class DashboardItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ListTile(
-      title: Text(title),
-      leading: Icon(icon),
-      onTap: onTap,
+    return Card(
+      color: Colors.white,
+      elevation: 4.0,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(10.0),
+      ),
+      child: ListTile(
+        title: Text(
+          title,
+          style: TextStyle(fontWeight: FontWeight.bold),
+        ),
+        leading: Icon(
+          icon,
+          color: Colors.blue,
+        ),
+        onTap: onTap,
+      ),
     );
   }
 }

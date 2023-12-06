@@ -18,7 +18,7 @@ class BettingApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: bettingscreen(),
+      home: BettingScreen(),
     );
   }
 }

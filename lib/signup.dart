@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
@@ -10,9 +9,18 @@ class SignUpPage extends StatelessWidget {
       appBar: AppBar(
         title: Text('Sign Up'),
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: SignUpForm(),
+      body: Container(
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+            colors: [Colors.blue, Colors.indigo],
+          ),
+        ),
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: SignUpForm(),
+        ),
       ),
     );
   }
@@ -26,12 +34,9 @@ class SignUpForm extends StatefulWidget {
 class _SignUpFormState extends State<SignUpForm> {
   final TextEditingController _usernameController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
-  Future<void> _signUp() async {
-    //paste signin apiurl here
 
-    print(_usernameController.text + _passwordController.text);
-    final String apiUrl =
-        'https://382e-2409-4073-2e9a-c499-5c74-813-7dba-3f1a.ngrok-free.app/user/signup';
+  Future<void> _signUp() async {
+    final String apiUrl = 'https://382e-2409-4073-2e9a-c499-5c74-813-7dba-3f1a.ngrok-free.app/user/signup'; // Add your API URL here
 
     final response = await http.post(
       Uri.parse(apiUrl),
@@ -48,7 +53,7 @@ class _SignUpFormState extends State<SignUpForm> {
       Navigator.pop(context);
     } else {
       // Handle error
-      print('Failed to sign in. Status code: ${response.statusCode}');
+      print('Failed to sign up. Status code: ${response.statusCode}');
     }
   }
 
@@ -61,28 +66,37 @@ class _SignUpFormState extends State<SignUpForm> {
           // Username TextField
           TextFormField(
             controller: _usernameController,
-            decoration: InputDecoration(labelText: 'Username'),
+            decoration: InputDecoration(
+              labelText: 'Username',
+              filled: true,
+              fillColor: Colors.white,
+              border: OutlineInputBorder(),
+            ),
           ),
           SizedBox(height: 16.0),
 
           // Password TextField
           TextFormField(
             controller: _passwordController,
-            decoration: InputDecoration(labelText: 'Password'),
+            decoration: InputDecoration(
+              labelText: 'Password',
+              filled: true,
+              fillColor: Colors.white,
+              border: OutlineInputBorder(),
+            ),
             obscureText: true,
           ),
           SizedBox(height: 16.0),
 
-          // Add a clickable area for the back link
-
-          SizedBox(height: 32.0),
           ElevatedButton(
             onPressed: _signUp,
-            child: Text('Sign In'),
+            style: ElevatedButton.styleFrom(
+              primary: Colors.green, // Set your desired primary color
+            ),
+            child: Text('Sign Up'),
           ),
           SizedBox(height: 16.0),
 
-          // Add a clickable area for the back link
           InkWell(
             onTap: () {
               // Navigate back to the sign-in page when the link is pressed
@@ -91,7 +105,7 @@ class _SignUpFormState extends State<SignUpForm> {
             child: Text(
               'Already have an account? Sign in here!',
               style: TextStyle(
-                color: Colors.blue,
+                color: Colors.white,
                 decoration: TextDecoration.underline,
               ),
             ),
